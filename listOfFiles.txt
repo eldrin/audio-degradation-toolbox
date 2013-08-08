@@ -1,0 +1,5 @@
+testdata/472TNA3M_snippet.wav
+testdata/clarinet.wav
+testdata/p009m_drum.wav
+testdata/RWC-C08.wav ; testdata/RWC-C08.csv
+testdata/p009m_drum.csv

@@ -33,18 +33,21 @@ filenames = {
     'testdata/RWC_G84.wav';
     'testdata/RWC_P009m_drum.wav';
     'testdata/RWC-C08.wav';
+    'testdata/cello.wav';
     };
 
 createSpectrograms = 0;
 
 %%
 % just copying original files to the demo folder
+maxValueRangeVis = zeros(length(filenames));
 for k=1:length(filenames)
     copyfile(filenames{k}, fullfile(pathOutputDemo,sprintf('00_Original_file%d.wav',k)))
     if createSpectrograms
         [f_audio,samplingFreq]=wavread(filenames{k});
         [s,f,t] = spectrogram(f_audio,hamming(round(samplingFreq*0.093)),round(samplingFreq*0.093/2),[],samplingFreq);
         figure; imagesc(t,f,log10(abs(s)+1)); axis xy; colormap(hot); ylim([0,8000]); colorbar; print('-dpng', fullfile(pathOutputDemo,sprintf('00_Original_file%d.png',k)))
+        maxValueRangeVis(k) = max(max(log10(abs(s)+1)));
     end
 end
 
@@ -57,7 +60,7 @@ for k=1:length(filenames)
     wavwrite(f_audio_out,samplingFreq,16,fullfile(pathOutputDemo,sprintf('Degr_01_liveRecording_file%d.wav',k)));
     if createSpectrograms
         [s,f,t] = spectrogram(f_audio_out,hamming(round(samplingFreq*0.093)),round(samplingFreq*0.093/2),[],samplingFreq);
-        figure; imagesc(t,f,log10(abs(s)+1)); axis xy; colormap(hot); ylim([0,8000]); colorbar; print('-dpng', fullfile(pathOutputDemo,sprintf('Degr_01_liveRecording_file%d.png',k)))
+        figure; imagesc(t,f,log10(abs(s)+1),[0 maxValueRangeVis(k)]); axis xy; colormap(hot); ylim([0,8000]); colorbar; print('-dpng', fullfile(pathOutputDemo,sprintf('Degr_01_liveRecording_file%d.png',k)))
     end
 end
 
@@ -70,7 +73,7 @@ for k=1:length(filenames)
     wavwrite(f_audio_out,samplingFreq,16,fullfile(pathOutputDemo,sprintf('Degr_02_strongMp3Compression_file%d.wav',k)));
     if createSpectrograms
         [s,f,t] = spectrogram(f_audio_out,hamming(round(samplingFreq*0.093)),round(samplingFreq*0.093/2),[],samplingFreq);
-        figure; imagesc(t,f,log10(abs(s)+1)); axis xy; colormap(hot); ylim([0,8000]); colorbar; print('-dpng', fullfile(pathOutputDemo,sprintf('Degr_02_strongMp3Compression_file%d.png',k)))
+        figure; imagesc(t,f,log10(abs(s)+1),[0 maxValueRangeVis(k)]); axis xy; colormap(hot); ylim([0,8000]); colorbar; print('-dpng', fullfile(pathOutputDemo,sprintf('Degr_02_strongMp3Compression_file%d.png',k)))
     end
 end
 
@@ -83,7 +86,7 @@ for k=1:length(filenames)
     wavwrite(f_audio_out,samplingFreq,16,fullfile(pathOutputDemo,sprintf('Degr_03_vinylRecording_file%d.wav',k)));
     if createSpectrograms
         [s,f,t] = spectrogram(f_audio_out,hamming(round(samplingFreq*0.093)),round(samplingFreq*0.093/2),[],samplingFreq);
-        figure; imagesc(t,f,log10(abs(s)+1)); axis xy; colormap(hot); ylim([0,8000]); colorbar; print('-dpng', fullfile(pathOutputDemo,sprintf('Degr_03_vinylRecording_file%d.png',k)))
+        figure; imagesc(t,f,log10(abs(s)+1),[0 maxValueRangeVis(k)]); axis xy; colormap(hot); ylim([0,8000]); colorbar; print('-dpng', fullfile(pathOutputDemo,sprintf('Degr_03_vinylRecording_file%d.png',k)))
     end
 end
 
@@ -96,7 +99,7 @@ for k=1:length(filenames)
     wavwrite(f_audio_out,samplingFreq,16,fullfile(pathOutputDemo,sprintf('Degr_04_radioBroadcast_file%d.wav',k)));
     if createSpectrograms
         [s,f,t] = spectrogram(f_audio_out,hamming(round(samplingFreq*0.093)),round(samplingFreq*0.093/2),[],samplingFreq);
-        figure; imagesc(t,f,log10(abs(s)+1)); axis xy; colormap(hot); ylim([0,8000]); colorbar; print('-dpng', fullfile(pathOutputDemo,sprintf('Degr_04_radioBroadcast_file%d.png',k)))
+        figure; imagesc(t,f,log10(abs(s)+1),[0 maxValueRangeVis(k)]); axis xy; colormap(hot); ylim([0,8000]); colorbar; print('-dpng', fullfile(pathOutputDemo,sprintf('Degr_04_radioBroadcast_file%d.png',k)))
     end
 end
 
@@ -109,7 +112,7 @@ for k=1:length(filenames)
     wavwrite(f_audio_out,samplingFreq,16,fullfile(pathOutputDemo,sprintf('Degr_05_smartPhoneRecording_file%d.wav',k)));
     if createSpectrograms
         [s,f,t] = spectrogram(f_audio_out,hamming(round(samplingFreq*0.093)),round(samplingFreq*0.093/2),[],samplingFreq);
-        figure; imagesc(t,f,log10(abs(s)+1)); axis xy; colormap(hot); ylim([0,8000]); colorbar; print('-dpng', fullfile(pathOutputDemo,sprintf('Degr_05_smartPhoneRecording_file%d.png',k)))
+        figure; imagesc(t,f,log10(abs(s)+1),[0 maxValueRangeVis(k)]); axis xy; colormap(hot); ylim([0,8000]); colorbar; print('-dpng', fullfile(pathOutputDemo,sprintf('Degr_05_smartPhoneRecording_file%d.png',k)))
     end
 end
 
@@ -122,7 +125,7 @@ for k=1:length(filenames)
     wavwrite(f_audio_out,samplingFreq,16,fullfile(pathOutputDemo,sprintf('Degr_06_smartPhonePlayback_file%d.wav',k)));
     if createSpectrograms
         [s,f,t] = spectrogram(f_audio_out,hamming(round(samplingFreq*0.093)),round(samplingFreq*0.093/2),[],samplingFreq);
-        figure; imagesc(t,f,log10(abs(s)+1)); axis xy; colormap(hot); ylim([0,8000]); colorbar; print('-dpng', fullfile(pathOutputDemo,sprintf('Degr_06_smartPhonePlayback_file%d.png',k)))
+        figure; imagesc(t,f,log10(abs(s)+1),[0 maxValueRangeVis(k)]); axis xy; colormap(hot); ylim([0,8000]); colorbar; print('-dpng', fullfile(pathOutputDemo,sprintf('Degr_06_smartPhonePlayback_file%d.png',k)))
     end
 end
 

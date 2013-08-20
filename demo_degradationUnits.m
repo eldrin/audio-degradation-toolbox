@@ -33,18 +33,21 @@ filenames = {
     'testdata/RWC_G84.wav';
     'testdata/RWC_P009m_drum.wav';
     'testdata/RWC-C08.wav';
+    'testdata/cello.wav';
     };
 
 createSpectrograms = 0;
 
 %%
 % just copying original files to the demo folder
+maxValueRangeVis = zeros(length(filenames));
 for k=1:length(filenames)
     copyfile(filenames{k}, fullfile(pathOutputDemo,sprintf('00_Original_file%d.wav',k)))
     if createSpectrograms
         [f_audio,samplingFreq]=wavread(filenames{k});
         [s,f,t] = spectrogram(f_audio,hamming(round(samplingFreq*0.093)),round(samplingFreq*0.093/2),[],samplingFreq);
         figure; imagesc(t,f,log10(abs(s)+1)); axis xy; colormap(hot); ylim([0,8000]); colorbar; print('-dpng', fullfile(pathOutputDemo,sprintf('00_Original_file%d.png',k)))
+        maxValueRangeVis(k) = max(max(log10(abs(s)+1)));
     end
 end
 
@@ -63,7 +66,7 @@ for k=1:length(filenames)
     wavwrite(f_audio_out,samplingFreq,16,fullfile(pathOutputDemo,sprintf('Unit_01_addNoise_file%d.wav',k)));
     if createSpectrograms
         [s,f,t] = spectrogram(f_audio_out,hamming(round(samplingFreq*0.093)),round(samplingFreq*0.093/2),[],samplingFreq);
-        figure; imagesc(t,f,log10(abs(s)+1)); axis xy; colormap(hot); ylim([0,8000]); colorbar; print('-dpng', fullfile(pathOutputDemo,sprintf('Unit_01_addNoise_file%d.png',k)))    
+        figure; imagesc(t,f,log10(abs(s)+1),[0 maxValueRangeVis(k)]); axis xy; colormap(hot); ylim([0,8000]); colorbar; print('-dpng', fullfile(pathOutputDemo,sprintf('Unit_01_addNoise_file%d.png',k)))    
     end
 end
 
@@ -79,7 +82,7 @@ for k=1:length(filenames)
     wavwrite(f_audio_out,samplingFreq,16,fullfile(pathOutputDemo,sprintf('Unit_02_addSound_file%d.wav',k)));
     if createSpectrograms
         [s,f,t] = spectrogram(f_audio_out,hamming(round(samplingFreq*0.093)),round(samplingFreq*0.093/2),[],samplingFreq);
-        figure; imagesc(t,f,log10(abs(s)+1)); axis xy; colormap(hot); ylim([0,8000]); colorbar; print('-dpng', fullfile(pathOutputDemo,sprintf('Unit_02_addSound_file%d.png',k)))    
+        figure; imagesc(t,f,log10(abs(s)+1),[0 maxValueRangeVis(k)]); axis xy; colormap(hot); ylim([0,8000]); colorbar; print('-dpng', fullfile(pathOutputDemo,sprintf('Unit_02_addSound_file%d.png',k)))    
     end
 end;
 
@@ -93,7 +96,7 @@ for k=1:length(filenames)
     wavwrite(f_audio_out,samplingFreq,16,fullfile(pathOutputDemo,sprintf('Unit_03_applyAliasing_file%d.wav',k)));
     if createSpectrograms
         [s,f,t] = spectrogram(f_audio_out,hamming(round(samplingFreq*0.093)),round(samplingFreq*0.093/2),[],samplingFreq);
-        figure; imagesc(t,f,log10(abs(s)+1)); axis xy; colormap(hot); ylim([0,8000]); colorbar; print('-dpng', fullfile(pathOutputDemo,sprintf('Unit_03_applyAliasing_file%d.png',k)))    
+        figure; imagesc(t,f,log10(abs(s)+1),[0 maxValueRangeVis(k)]); axis xy; colormap(hot); ylim([0,8000]); colorbar; print('-dpng', fullfile(pathOutputDemo,sprintf('Unit_03_applyAliasing_file%d.png',k)))    
     end
 end;
 
@@ -107,7 +110,7 @@ for k=1:length(filenames)
     wavwrite(f_audio_out,samplingFreq,16,fullfile(pathOutputDemo,sprintf('Unit_04_applyClipping_file%d.wav',k)));
     if createSpectrograms
         [s,f,t] = spectrogram(f_audio_out,hamming(round(samplingFreq*0.093)),round(samplingFreq*0.093/2),[],samplingFreq);
-        figure; imagesc(t,f,log10(abs(s)+1)); axis xy; colormap(hot); ylim([0,8000]); colorbar; print('-dpng', fullfile(pathOutputDemo,sprintf('Unit_04_applyClipping_file%d.png',k)))    
+        figure; imagesc(t,f,log10(abs(s)+1),[0 maxValueRangeVis(k)]); axis xy; colormap(hot); ylim([0,8000]); colorbar; print('-dpng', fullfile(pathOutputDemo,sprintf('Unit_04_applyClipping_file%d.png',k)))    
     end
 end;
 %%
@@ -121,7 +124,7 @@ for k=1:length(filenames)
     wavwrite(f_audio_out,samplingFreq,16,fullfile(pathOutputDemo,sprintf('Unit_05_applyDynamicRangeCompression_file%d.wav',k)));
     if createSpectrograms
         [s,f,t] = spectrogram(f_audio_out,hamming(round(samplingFreq*0.093)),round(samplingFreq*0.093/2),[],samplingFreq);
-        figure; imagesc(t,f,log10(abs(s)+1)); axis xy; colormap(hot); ylim([0,8000]); colorbar; print('-dpng', fullfile(pathOutputDemo,sprintf('Unit_05_applyDynamicRangeCompression_file%d.png',k)))    
+        figure; imagesc(t,f,log10(abs(s)+1),[0 maxValueRangeVis(k)]); axis xy; colormap(hot); ylim([0,8000]); colorbar; print('-dpng', fullfile(pathOutputDemo,sprintf('Unit_05_applyDynamicRangeCompression_file%d.png',k)))    
     end
 end;
 
@@ -135,7 +138,7 @@ for k=1:length(filenames)
     wavwrite(f_audio_out,samplingFreq,16,fullfile(pathOutputDemo,sprintf('Unit_06_applyHarmonicDistortion_file%d.wav',k)));
     if createSpectrograms
         [s,f,t] = spectrogram(f_audio_out,hamming(round(samplingFreq*0.093)),round(samplingFreq*0.093/2),[],samplingFreq);
-        figure; imagesc(t,f,log10(abs(s)+1)); axis xy; colormap(hot); ylim([0,8000]); colorbar; print('-dpng', fullfile(pathOutputDemo,sprintf('Unit_06_applyHarmonicDistortion_file%d.png',k)))    
+        figure; imagesc(t,f,log10(abs(s)+1),[0 maxValueRangeVis(k)]); axis xy; colormap(hot); ylim([0,8000]); colorbar; print('-dpng', fullfile(pathOutputDemo,sprintf('Unit_06_applyHarmonicDistortion_file%d.png',k)))    
     end
 end;
 
@@ -149,7 +152,7 @@ for k=1:length(filenames)
     wavwrite(f_audio_out,samplingFreq,16,fullfile(pathOutputDemo,sprintf('Unit_07_applyMp3Compression_file%d.wav',k)));
     if createSpectrograms
         [s,f,t] = spectrogram(f_audio_out,hamming(round(samplingFreq*0.093)),round(samplingFreq*0.093/2),[],samplingFreq);
-        figure; imagesc(t,f,log10(abs(s)+1)); axis xy; colormap(hot); ylim([0,8000]); colorbar; print('-dpng', fullfile(pathOutputDemo,sprintf('Unit_07_applyMp3Compression_file%d.png',k)))    
+        figure; imagesc(t,f,log10(abs(s)+1),[0 maxValueRangeVis(k)]); axis xy; colormap(hot); ylim([0,8000]); colorbar; print('-dpng', fullfile(pathOutputDemo,sprintf('Unit_07_applyMp3Compression_file%d.png',k)))    
     end
 end;
 
@@ -164,7 +167,7 @@ for k=1:length(filenames)
     wavwrite(f_audio_out,samplingFreq,16,fullfile(pathOutputDemo,sprintf('Unit_08_applySpeedup_file%d.wav',k)));
     if createSpectrograms
         [s,f,t] = spectrogram(f_audio_out,hamming(round(samplingFreq*0.093)),round(samplingFreq*0.093/2),[],samplingFreq);
-        figure; imagesc(t,f,log10(abs(s)+1)); axis xy; colormap(hot); ylim([0,8000]); colorbar; print('-dpng', fullfile(pathOutputDemo,sprintf('Unit_08_applySpeedup_file%d.png',k)))    
+        figure; imagesc(t,f,log10(abs(s)+1),[0 maxValueRangeVis(k)]); axis xy; colormap(hot); ylim([0,8000]); colorbar; print('-dpng', fullfile(pathOutputDemo,sprintf('Unit_08_applySpeedup_file%d.png',k)))    
     end
 end;
 
@@ -179,7 +182,7 @@ for k=1:length(filenames)
     wavwrite(f_audio_out,samplingFreq,16,fullfile(pathOutputDemo,sprintf('Unit_09_applyWowResampling_file%d.wav',k)));
     if createSpectrograms
         [s,f,t] = spectrogram(f_audio_out,hamming(round(samplingFreq*0.093)),round(samplingFreq*0.093/2),[],samplingFreq);
-        figure; imagesc(t,f,log10(abs(s)+1)); axis xy; colormap(hot); ylim([0,8000]); colorbar; print('-dpng', fullfile(pathOutputDemo,sprintf('Unit_09_applyWowResampling_file%d.png',k)))    
+        figure; imagesc(t,f,log10(abs(s)+1),[0 maxValueRangeVis(k)]); axis xy; colormap(hot); ylim([0,8000]); colorbar; print('-dpng', fullfile(pathOutputDemo,sprintf('Unit_09_applyWowResampling_file%d.png',k)))    
     end
 end;
 
@@ -193,7 +196,7 @@ for k=1:length(filenames)
     wavwrite(f_audio_out,samplingFreq,16,fullfile(pathOutputDemo,sprintf('Unit_10_applyHighpassFilter_file%d.wav',k)));
     if createSpectrograms
         [s,f,t] = spectrogram(f_audio_out,hamming(round(samplingFreq*0.093)),round(samplingFreq*0.093/2),[],samplingFreq);
-        figure; imagesc(t,f,log10(abs(s)+1)); axis xy; colormap(hot); ylim([0,8000]); colorbar; print('-dpng', fullfile(pathOutputDemo,sprintf('Unit_10_applyHighpassFilter_file%d.png',k)))    
+        figure; imagesc(t,f,log10(abs(s)+1),[0 maxValueRangeVis(k)]); axis xy; colormap(hot); ylim([0,8000]); colorbar; print('-dpng', fullfile(pathOutputDemo,sprintf('Unit_10_applyHighpassFilter_file%d.png',k)))    
     end
 end;
 
@@ -222,7 +225,7 @@ for k=1:length(filenames)
     wavwrite(f_audio_out,samplingFreq,16,fullfile(pathOutputDemo,sprintf('Unit_11_applyImpulseResponse_file%d.wav',k)));
     if createSpectrograms
         [s,f,t] = spectrogram(f_audio_out,hamming(round(samplingFreq*0.093)),round(samplingFreq*0.093/2),[],samplingFreq);
-        figure; imagesc(t,f,log10(abs(s)+1)); axis xy; colormap(hot); ylim([0,8000]); colorbar; print('-dpng', fullfile(pathOutputDemo,sprintf('Unit_11_applyImpulseResponse_file%d.png',k)))    
+        figure; imagesc(t,f,log10(abs(s)+1),[0 maxValueRangeVis(k)]); axis xy; colormap(hot); ylim([0,8000]); colorbar; print('-dpng', fullfile(pathOutputDemo,sprintf('Unit_11_applyImpulseResponse_file%d.png',k)))    
     end
 end;
 

@@ -70,19 +70,19 @@ end
 if isfield(parameter,'normalizeOutputAudio')==0
     parameter.normalizeOutputAudio = 1;
 end
+if isfield(parameter,'maxProblemComplexity')==0
+    % lower this if you run into 'reduce problem complexity' problems
+    parameter.maxProblemComplexity = 2^27;  % limit defined in resample: 2^31, however, that is still too large
+end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Main program
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 f_audio_out = [];
-if ~isempty(f_audio)
-    orgLength_samples = size(f_audio,1);
-    approxNewLength_samples = (100 - parameter.changeInPercent)/100 * orgLength_samples;
-    
-    maxProblemSize = 2^28;  % limit defined in resample: 2^31, however, that is still too large
-    Q = round(sqrt(maxProblemSize * orgLength_samples / approxNewLength_samples));
-    P = round(maxProblemSize / Q);
+if ~isempty(f_audio)     
+    Q = round(sqrt(parameter.maxProblemComplexity * 100 / (100 - parameter.changeInPercent)));
+    P = round(parameter.maxProblemComplexity / Q);
     
     f_audio_out = resample(f_audio,P,Q);
     

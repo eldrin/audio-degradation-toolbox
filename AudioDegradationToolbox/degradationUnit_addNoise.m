@@ -92,7 +92,7 @@ end
 % Main program
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-f_audio_out = [];
+f_audio_out = f_audio;
 if ~isempty(f_audio)
     
     filterTheNoise = 1;

@@ -37,7 +37,7 @@ filenames = {
     'testdata/175234__kenders2000__nonsense-sentence.wav';
     };
 
-createSpectrograms = 1;
+createSpectrograms = 0;
 
 %%
 % just copying original files to the demo folder

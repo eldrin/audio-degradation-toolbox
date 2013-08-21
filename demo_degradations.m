@@ -33,10 +33,11 @@ filenames = {
     'testdata/RWC_G84.wav';
     'testdata/RWC_P009m_drum.wav';
     'testdata/RWC-C08.wav';
-    'testdata/cello.wav';
+    'testdata/session5-faure_elegie2c-001-0.wav';
+    'testdata/175234__kenders2000__nonsense-sentence.wav';
     };
 
-createSpectrograms = 0;
+createSpectrograms = 1;
 
 %%
 % just copying original files to the demo folder

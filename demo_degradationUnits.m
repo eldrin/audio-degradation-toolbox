@@ -33,10 +33,11 @@ filenames = {
     'testdata/RWC_G84.wav';
     'testdata/RWC_P009m_drum.wav';
     'testdata/RWC-C08.wav';
-    'testdata/cello.wav';
+    'testdata/session5-faure_elegie2c-001-0.wav';
+    'testdata/175234__kenders2000__nonsense-sentence.wav';
     };
 
-createSpectrograms = 0;
+createSpectrograms = 1;
 
 %%
 % just copying original files to the demo folder
@@ -76,7 +77,7 @@ for k=1:length(filenames)
     
     parameter.snrRatio = 10; % in dB
     parameter.loadInternalSound = 1;
-    parameter.internalSound = 'OldDustyRecording';
+    parameter.internalSound = 'PubEnvironment1';
     f_audio_out = degradationUnit_addSound(f_audio, samplingFreq, [], parameter);
     
     wavwrite(f_audio_out,samplingFreq,16,fullfile(pathOutputDemo,sprintf('Unit_02_addSound_file%d.wav',k)));

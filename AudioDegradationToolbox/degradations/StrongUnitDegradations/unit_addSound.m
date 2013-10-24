@@ -1,4 +1,4 @@
-function degradation_config = addSound()
+function degradation_config = unit_addSound()
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Preset: addSound
 % Programmer: Matthias Mauch

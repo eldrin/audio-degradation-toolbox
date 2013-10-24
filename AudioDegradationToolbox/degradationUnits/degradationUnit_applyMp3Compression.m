@@ -66,17 +66,17 @@ if isfield(parameter,'LocationLameBinary')==0
     fullFilenameMfile = mfilename('fullpath');
     [pathstr,name,ext] = fileparts(fullFilenameMfile);
     if ispc
-        parameter.LocationLameBinary = [pathstr,'\degradationData\Compressors\lame.exe'];
+        parameter.LocationLameBinary = fullfile(pathstr, '..\degradationData\Compressors\lame.exe');
     elseif isunix
         if ismac
-            parameter.LocationLameBinary = [pathstr,'/degradationData/Compressors/lame.mac'];
+            parameter.LocationLameBinary = fullfile(pathstr,'../degradationData/Compressors/lame.mac');
         else
             % linux/unix
             [status,result] = system('which lame');
             if status == 0
                 parameter.LocationLameBinary = result;
             else
-                parameter.LocationLameBinary = [pathstr,'/degradationData/Compressors/lame.linux'];
+                parameter.LocationLameBinary = fullfile(pathstr, '../degradationData/Compressors/lame.linux');
                 
                 [status,result] = system(parameter.LocationLameBinary);
                 if status > 1

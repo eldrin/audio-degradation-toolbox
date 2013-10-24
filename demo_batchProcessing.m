@@ -18,7 +18,7 @@ function demo_batchProcessing()
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-addpath(fullfile(pwd,'AudioDegradationToolbox'));
+addpath(genpath(fullfile(pwd,'AudioDegradationToolbox')));
 
 % the following file should list all the files to process. Every line
 % should specify one audio file, one audio file and a ground truth file in
@@ -39,6 +39,17 @@ filename_listOfFiles = 'listOfFiles.txt';
 % destination directory
 outputDirectory = 'demoOutput/';
 
+% desired degradations
+degradationnames = {'liveRecording', ...
+                    'pubEnvironment', ...
+                    'radioBroadcast', ...
+                    'smartPhonePlayback', ...
+                    'smartPhoneRecording', ...
+                    'strongMp3Compression', ...
+                    'vinylRecording', ...
+                    'unit_addSound', ...
+                    'unit_addNoise'};
+nDegradation = length(degradationnames);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -106,85 +117,21 @@ parfor k=1:numLines  % use this if you have the parallel computing toolbox
         remainingColumns = data{2};
     end
     
-    % Start the degradation process
+    % apply degradations
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    degradationname = 'liveRecording';
-    PathToOutput = fullfile(outputDirectory,degradationname);
-    if ~exist(PathToOutput,'dir') mkdir(PathToOutput); end
-    [f_audio_out,timepositions_afterDegr] = applyDegradation(degradationname, f_audio, samplingFreq, timepositions_beforeDegr);
-    
-    if ~isempty(audiofilename)
-        wavwrite(f_audio_out,samplingFreq,nbits,fullfile(PathToOutput,audiofilename));
+    for iDegradation = 1:nDegradation
+        degradationname = degradationnames{iDegradation};
+        PathToOutput = fullfile(outputDirectory,degradationname);
+        if ~exist(PathToOutput,'dir') mkdir(PathToOutput); end
+        [f_audio_out,timepositions_afterDegr] = applyDegradation(degradationname, f_audio, samplingFreq, timepositions_beforeDegr);
+
+        if ~isempty(audiofilename)
+            wavwrite(f_audio_out,samplingFreq,nbits,fullfile(PathToOutput,audiofilename));
+        end
+        if ~isempty(csvfilename)
+            writeCsvFile(fullfile(PathToOutput,csvfilename),timepositions_afterDegr,remainingColumns);
+        end
     end
-    if ~isempty(csvfilename)
-        writeCsvFile(fullfile(PathToOutput,csvfilename),timepositions_afterDegr,remainingColumns);
-    end
-    
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    degradationname = 'strongMp3Compression';
-    PathToOutput = fullfile(outputDirectory,degradationname);
-    if ~exist(PathToOutput,'dir') mkdir(PathToOutput); end
-    [f_audio_out,timepositions_afterDegr] = applyDegradation(degradationname, f_audio, samplingFreq, timepositions_beforeDegr);
-    
-    if ~isempty(audiofilename)
-        wavwrite(f_audio_out,samplingFreq,nbits,fullfile(PathToOutput,audiofilename));
-    end
-    if ~isempty(csvfilename)
-        writeCsvFile(fullfile(PathToOutput,csvfilename),timepositions_afterDegr,remainingColumns);
-    end
-    
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    degradationname = 'vinylRecording';
-    PathToOutput = fullfile(outputDirectory,degradationname);
-    if ~exist(PathToOutput,'dir') mkdir(PathToOutput); end
-    [f_audio_out,timepositions_afterDegr] = applyDegradation(degradationname, f_audio, samplingFreq, timepositions_beforeDegr);
-    
-    if ~isempty(audiofilename)
-        wavwrite(f_audio_out,samplingFreq,nbits,fullfile(PathToOutput,audiofilename));
-    end
-    if ~isempty(csvfilename)
-        writeCsvFile(fullfile(PathToOutput,csvfilename),timepositions_afterDegr,remainingColumns);
-    end
-    
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    degradationname = 'radioBroadcast';
-    PathToOutput = fullfile(outputDirectory,degradationname);
-    if ~exist(PathToOutput,'dir') mkdir(PathToOutput); end
-    [f_audio_out,timepositions_afterDegr] = applyDegradation(degradationname, f_audio, samplingFreq, timepositions_beforeDegr);
-    
-    if ~isempty(audiofilename)
-        wavwrite(f_audio_out,samplingFreq,nbits,fullfile(PathToOutput,audiofilename));
-    end
-    if ~isempty(csvfilename)
-        writeCsvFile(fullfile(PathToOutput,csvfilename),timepositions_afterDegr,remainingColumns);
-    end
-    
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    degradationname = 'smartPhoneRecording';
-    PathToOutput = fullfile(outputDirectory,degradationname);
-    if ~exist(PathToOutput,'dir') mkdir(PathToOutput); end
-    [f_audio_out,timepositions_afterDegr] = applyDegradation(degradationname, f_audio, samplingFreq, timepositions_beforeDegr);
-    
-    if ~isempty(audiofilename)
-        wavwrite(f_audio_out,samplingFreq,nbits,fullfile(PathToOutput,audiofilename));
-    end
-    if ~isempty(csvfilename)
-        writeCsvFile(fullfile(PathToOutput,csvfilename),timepositions_afterDegr,remainingColumns);
-    end
-    
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    degradationname = 'smartPhonePlayback';
-    PathToOutput = fullfile(outputDirectory,degradationname);
-    if ~exist(PathToOutput,'dir') mkdir(PathToOutput); end
-    [f_audio_out,timepositions_afterDegr] = applyDegradation(degradationname, f_audio, samplingFreq, timepositions_beforeDegr);
-    
-    if ~isempty(audiofilename)
-        wavwrite(f_audio_out,samplingFreq,nbits,fullfile(PathToOutput,audiofilename));
-    end
-    if ~isempty(csvfilename)
-        writeCsvFile(fullfile(PathToOutput,csvfilename),timepositions_afterDegr,remainingColumns);
-    end
-    
 end
 
 end

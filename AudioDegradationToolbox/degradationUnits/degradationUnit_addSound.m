@@ -94,7 +94,7 @@ if ~isempty(f_audio)
         
         fullFilenameMfile = mfilename('fullpath');
         [pathstr,name,ext] = fileparts(fullFilenameMfile);
-        dirRootIRs = fullfile(pathstr,'degradationData');
+        dirRootIRs = fullfile(pathstr,'../degradationData');
         
         names_internalSounds = {'OldDustyRecording', 'PubEnvironment1', 'Hum50Hz'};
         indexSound = find(strcmpi(names_internalSounds,parameter.internalSound), 1);
@@ -129,8 +129,6 @@ if ~isempty(f_audio)
         end
     end
     
-    numLength1 = size(f_audio,1);
-    numLength2 = size(f_audioAdd,1);
     numChannels1 = size(f_audio,2);
     numChannels2 = size(f_audioAdd,2);
     
@@ -142,6 +140,8 @@ if ~isempty(f_audio)
         f_audioAdd = resample(f_audioAdd,samplingFreq,samplingFreqAdd);
     end
     
+    numLength1 = size(f_audio,1);
+    numLength2 = size(f_audioAdd,1);
     numFullRepetitions = floor(numLength1/numLength2);
     
     totalAdditiveSound = zeros(numLength1,numChannels2);

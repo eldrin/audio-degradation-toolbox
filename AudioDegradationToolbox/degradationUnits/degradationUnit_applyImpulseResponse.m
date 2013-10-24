@@ -94,7 +94,7 @@ if parameter.loadInternalIR
     
     fullFilenameMfile = mfilename('fullpath');
     [pathstr,name,ext] = fileparts(fullFilenameMfile);
-    dirRootIRs = fullfile(pathstr,'degradationData');
+    dirRootIRs = fullfile(pathstr,'../degradationData');
     
     names_internalIR = {'GreatHall1','Classroom1','Octagon1','GoogleNexusOneFrontSpeaker','GoogleNexusOneFrontMic','VinylPlayer1960'};
     indexIR = find(strcmpi(names_internalIR,parameter.internalIR), 1);

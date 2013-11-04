@@ -22,7 +22,7 @@
 clear
 close all
 
-addpath(fullfile(pwd,'AudioDegradationToolbox'));
+addpath(genpath(fullfile(pwd,'AudioDegradationToolbox')));
 
 pathOutputDemo = 'demoOutput/';
 if ~exist(pathOutputDemo,'dir'), mkdir(pathOutputDemo); end

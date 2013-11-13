@@ -23,11 +23,11 @@ function degradation_config = dopBandPass()
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 degradation_config(1).methodname = 'degradationUnit_applyLowpassFilter';
-degradation_config(1).parameter.stopFrequency = 8000;
-degradation_config(1).parameter.passFrequency = 6000;
+degradation_config(1).parameter.stopFrequency = 6000;
+degradation_config(1).parameter.passFrequency = 4000;
 
 degradation_config(2).methodname = 'degradationUnit_applyHighpassFilter';
-degradation_config(2).parameter.stopFrequency = 50;
+degradation_config(2).parameter.stopFrequency = 66.66;
 degradation_config(2).parameter.passFrequency = 200;
 
 % degradation_config(3).methodname = 'degradationUnit_applyDynamicRangeCompression';

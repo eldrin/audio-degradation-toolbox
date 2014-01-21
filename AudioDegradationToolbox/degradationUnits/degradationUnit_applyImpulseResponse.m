@@ -84,6 +84,9 @@ end
 if isfield(parameter,'impulseResponseSampFreq')==0
     parameter.impulseResponseSampFreq = 0;
 end
+if isfield(parameter,'averageGroupDelayOfFilter')==0
+    parameter.averageGroupDelayOfFilter = [];  % specify this only if you know what you are doing
+end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Main program
@@ -146,22 +149,27 @@ if ~isempty(f_audio)
     end
 end
 
-% This degradation does impose a delay
-timepositions_afterDegr = [];
-if ~isempty(timepositions_beforeDegr)
-    % approximation via group delay
-        
-    [Gd,W] = mygrpdelay(h_org,1,fs_h,2048);  
+% Applying an FIR filter imposes a delay on the signal. We estimate this
+% delay using the average group delay of the filter and adjust the
+% output signal accordingly.
+if isempty(parameter.averageGroupDelayOfFilter)
+    [Gd,W] = mygrpdelay(h_org,1,fs_h,2048);
     %[Gd,W] = grpdelay(h_org,1,1024);  % Matlab's own group delay function. Failt for some filters considerably.
-    
-    %figure;
-    %plot(W,Gd/samplingFreqFilter)
-
+    if any(Gd) < 0
+        error('A group delay was negative. This should not happen!?')
+    end
     averageOfGroupDelays = mean(Gd);
-    timeOffset_sec = averageOfGroupDelays / fs_h;
-    
-    timepositions_afterDegr = timepositions_beforeDegr + timeOffset_sec;
+else
+    averageOfGroupDelays = parameter.averageGroupDelayOfFilter;
 end
+
+if ~isempty(f_audio)
+    % let's adjust the output audio and eliminate the delay
+    delay = max(1,ceil(averageOfGroupDelays));
+    f_audio_out = f_audio_out(delay:end,:);
+end
+
+timepositions_afterDegr = timepositions_beforeDegr;
 
 end
 

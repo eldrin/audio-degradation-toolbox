@@ -110,7 +110,7 @@ if ~isempty(f_audio)
             case 3
                 file = fullfile(dirRootIRs,'PubSounds/hum_50Hz_from_headphone_plug.wav');
         end
-        [f_audioAdd,samplingFreqAdd] = wavread(file);
+        [f_audioAdd,samplingFreqAdd] = audioread(file);
     else
         f_audioAdd = parameter.addSound;
         samplingFreqAdd = parameter.addSoundSamplingFreq;

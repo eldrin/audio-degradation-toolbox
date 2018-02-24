@@ -107,7 +107,7 @@ parfor k=1:numLines  % use this if you have the parallel computing toolbox
     timepositions_beforeDegr = []; remainingColumns = [];
     if ~isempty(audiofilename)
         fprintf('Reading %s\n',audiofilename);
-        [f_audio,samplingFreq,nbits] = wavread(fullfile(audiopath,audiofilename));
+        [f_audio,samplingFreq,nbits] = audioread(fullfile(audiopath,audiofilename));
     end
     if ~isempty(csvfilename)
         fprintf('Reading %s\n',csvfilename);
@@ -134,7 +134,7 @@ parfor k=1:numLines  % use this if you have the parallel computing toolbox
         [f_audio_out,timepositions_afterDegr] = applyDegradation(degradationname, f_audio, samplingFreq, timepositions_beforeDegr);
 
         if ~isempty(audiofilename)
-            wavwrite(f_audio_out,samplingFreq,nbits,fullfile(PathToOutput,audiofilename));
+            audiowrite(fullfile(PathToOutput,audiofilename), f_audio_out,samplingFreq,nbits, 'BitPerSample', 16);
         end
         if ~isempty(csvfilename)
             writeCsvFile(fullfile(PathToOutput,csvfilename),timepositions_afterDegr,remainingColumns);

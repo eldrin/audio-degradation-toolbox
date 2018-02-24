@@ -160,7 +160,7 @@ if ~isempty(f_audio)
     end
     
     try
-        [f_audio_out, fs,nbits] = wavread(wavFilenameAndPath);
+        [f_audio_out, fs,nbits] = audioread(wavFilenameAndPath);
     catch % fix incorrect chunk size, see http://www.mathworks.com/support/solutions/en/data/1-1BZMF/index.html
         warning('lame returned an ill-formed audio file. Trying to correct the file header...')
         d = dir(wavFilenameAndPath);
@@ -171,7 +171,7 @@ if ~isempty(f_audio)
         fseek(fid,40,-1);
         fwrite(fid,fileSize-44,'uint32');
         fclose(fid);
-        [f_audio_out, fs,nbits] = wavread(wavFilenameAndPath);
+        [f_audio_out, fs,nbits] = audioread(wavFilenameAndPath);
     end
     
     if parameter.deleteIntermediateFiles

@@ -116,7 +116,7 @@ if parameter.loadInternalIR
         case 6
             file = fullfile(dirRootIRs,'VinylSim/ImpulseReponseVinylPlayer1960_smoothed.wav');
     end
-    [parameter.impulseResponse,parameter.impulseResponseSampFreq] = wavread(file);
+    [parameter.impulseResponse,parameter.impulseResponseSampFreq] = audioread(file);
 end
 
 fs = samplingFreq;

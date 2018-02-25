@@ -163,7 +163,7 @@ if ~isempty(f_audio)
         
         destSnr = parameter.snrRatio;
         
-        scaler = sqrt( power1 ./ (power2 * 10^(destSnr/10)) );
+        scaler = sqrt( power1 ./ (power2 * 10.^(destSnr/10)) );
         prescaler = 1;
     end
     
